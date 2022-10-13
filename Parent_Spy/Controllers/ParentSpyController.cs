@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using Parent_Spy.DataBase;
 using Parent_Spy.DTO;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 
@@ -22,9 +24,8 @@ namespace Parent_Spy.Controllers
             
         }
 
-        [HttpPost]
-        [Route("sites")]
-        public string GetSites()
+        [HttpPost, Route("sites")]       
+        public ActionResult GetSites() // Получение списка сайтов
         {
             using (var context = new PlacesContext())
             {
@@ -37,14 +38,13 @@ namespace Parent_Spy.Controllers
 
                 var result = JsonSerializer.Serialize(sites);
 
-                return result;
+                return Ok(result);
 
             }
         }
 
-        [HttpPost]
-        [Route("files")]
-        public string GetFiles()
+        [HttpPost, Route("files")]        
+        public ActionResult GetFiles() //Получение списка файлов
         {
             using (var context = new PlacesContext())
             {
@@ -58,9 +58,56 @@ namespace Parent_Spy.Controllers
 
                 var result = JsonSerializer.Serialize(files);
 
-                return result;
+                return Ok(result);
             }
         }
+
+        [HttpPost, Route("echo")]
+        public ActionResult Echo() //Проверка работоспособности сервиса
+        {
+            return Ok();
+        }
+
+
+        [HttpPost, Route("block")]
+        public ActionResult BlockSite(string site) // Блокировка веб-сайта на компьютере
+        {
+            try
+            {
+                var templateDirectory = "C:\\Windows\\System32\\drivers\\etcn";
+                var files = new DirectoryInfo($"{templateDirectory}").GetFiles($"hosts");
+
+                if (files.Length == 0) return BadRequest("Файл не найден!");
+
+                var filePath = files.First().FullName;
+                StreamWriter sw = new($"{filePath}", true);
+
+                sw.WriteLine($"127.0.0.1 {site}");
+                sw.Close();
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost, Route("getFile")]
+        public ActionResult GetFile(string filePath) //Закачка файла с компьютера 
+        {
+            try
+            {
+                var fileName = Path.GetFileName(filePath);
+                return PhysicalFile(filePath, "application/octet-stream", fileName);
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
 
     }
