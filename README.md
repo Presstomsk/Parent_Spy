@@ -3,7 +3,8 @@
 Windows Service родительского контроля на ASP.NET Core
 
 ***Строка подключения сервиса в PowerShell New-Service -Name ParentSpy -BinaryPathName "C:\Parent_Spy\Parent_Spy.exe"
-*** WEB API:
+
+***WEB API:
 
 http://localhost:5100/ParentSpy/echo - проверка работоспособности сервиса - POST
 
