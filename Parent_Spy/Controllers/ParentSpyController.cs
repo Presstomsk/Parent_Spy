@@ -67,6 +67,11 @@ namespace Parent_Spy.Controllers
         {
             return Ok();
         }
+        [HttpGet, Route("echoGet")]
+        public ActionResult EchoGet() //Проверка работоспособности сервиса
+        {
+            return Ok();
+        }
 
 
         [HttpPost, Route("block")]
