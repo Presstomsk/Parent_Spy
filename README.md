@@ -14,7 +14,10 @@ http://localhost:5100/ParentSpy/sites - Список сайтов (журнал 
 
 http://localhost:5100/ParentSpy/files - Список файлов (загрузки в браузере Mozilla Firefox) - POST 
 
+http://localhost:5100/ParentSpy/block?site=url - Блокировка сайта - POST 
+
+http://localhost:5100/ParentSpy/getFile?filePath=filePath - Загрузка файла с компьютера - POST 
 
 
-
+***Порт 5100 задан через Kestrel
 
