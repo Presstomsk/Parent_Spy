@@ -1,6 +1,6 @@
 # Parent_Spy
 
-Windows Service родительского контроля на ASP.NET Core - **Часть приложения родительского контроля**
+***Часть приложения родительского контроля*** - Windows Service родительского контроля на ASP.NET Core 
 
 ***Строка подключения сервиса в PowerShell New-Service -Name ParentSpy -BinaryPathName "C:\Parent_Spy\Parent_Spy.exe"***
 
