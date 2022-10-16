@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using Parent_Spy.DataBase;
 using Parent_Spy.DTO;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -37,8 +36,10 @@ namespace Parent_Spy.Controllers
                 }).ToList();
 
                 var result = JsonSerializer.Serialize(sites);
+                var gzip = new Gzip.Gzip();
+                var compressed = gzip.Compress(result);
 
-                return Ok(result);
+                return Ok(compressed);
 
             }
         }
@@ -57,8 +58,10 @@ namespace Parent_Spy.Controllers
                 }).ToList();
 
                 var result = JsonSerializer.Serialize(files);
+                var gzip = new Gzip.Gzip();
+                var compressed = gzip.Compress(result);
 
-                return Ok(result);
+                return Ok(compressed);
             }
         }
 
