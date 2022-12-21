@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Parent_Spy.DataBase;
 using Parent_Spy.DTO;
@@ -24,16 +25,16 @@ namespace Parent_Spy.Controllers
         }
 
         [HttpPost, Route("sites")]       
-        public ActionResult GetSites() // Получение списка сайтов
+        public ActionResult GetSites() // Получение списка сайтов за месяц
         {
             using (var context = new PlacesContext())
             {
-                var sites = context.MozPlaces.Where(x => x.LastVisitDate !=null ).Select(x => new SiteSendDTO
+                var sites = context.MozPlaces.AsNoTracking().AsQueryable().Where(x => x.LastVisitDate !=null && (DateTime.Now - (DateTimeOffset.FromUnixTimeSeconds((long)x.LastVisitDate / 1000000).DateTime)).Days <= 31).Select(x => new SiteSendDTO
                 {
                     Url = x.Url,
                     Date = DateTimeOffset.FromUnixTimeSeconds((long)x.LastVisitDate/1000000).DateTime,
                     Host = x.Origin.Host
-                }).ToList();
+                }).AsEnumerable();
 
                 var result = JsonSerializer.Serialize(sites);
                 var gzip = new Gzip.Gzip();
@@ -45,17 +46,17 @@ namespace Parent_Spy.Controllers
         }
 
         [HttpPost, Route("files")]        
-        public ActionResult GetFiles() //Получение списка файлов
+        public ActionResult GetFiles() //Получение списка файлов за месяц
         {
             using (var context = new PlacesContext())
             {
-                var files = context.MozAnnos.Where(x => x.AnnoAttributeId == 1 && x.DateAdded != null).Select(x => new FileSendDTO
+                var files = context.MozAnnos.AsNoTracking().AsQueryable().Where(x => x.AnnoAttributeId == 1 && x.DateAdded != null && (DateTime.Now - (DateTimeOffset.FromUnixTimeSeconds((long)x.DateAdded / 1000000).DateTime)).Days <= 31).Select(x => new FileSendDTO
                 {
                     FilePath = x.Content,
                     Date = DateTimeOffset.FromUnixTimeSeconds((long)x.DateAdded / 1000000).DateTime,
                     Title = x.Place.Title,
                     Url = x.Place.Url
-                }).ToList();
+                }).AsEnumerable();
 
                 var result = JsonSerializer.Serialize(files);
                 var gzip = new Gzip.Gzip();
