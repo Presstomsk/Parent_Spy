@@ -58,6 +58,7 @@ namespace Parent_Spy.Controllers
                     Url = x.Place.Url
                 }).AsEnumerable();
 
+
                 var result = JsonSerializer.Serialize(files);
                 var gzip = new Gzip.Gzip();
                 var compressed = gzip.Compress(result);
