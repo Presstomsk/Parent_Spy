@@ -79,12 +79,12 @@ namespace Parent_Spy.Controllers
         }
 
 
-        [HttpPost, Route("block")]
+        [HttpPost, Route("block/{site}")]
         public ActionResult BlockSite(string site) // Блокировка веб-сайта на компьютере
         {
             try
             {
-                var templateDirectory = "C:\\Windows\\System32\\drivers\\etcn";
+                var templateDirectory = "C:\\Windows\\System32\\drivers\\etc";
                 var files = new DirectoryInfo($"{templateDirectory}").GetFiles($"hosts");
 
                 if (files.Length == 0) return BadRequest("Файл не найден!");
@@ -98,6 +98,32 @@ namespace Parent_Spy.Controllers
                 return Ok();
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost, Route("unblock/{site}")]
+        public ActionResult UnblockSite(string site) // Разблокировка  веб-сайта на компьютере
+        {
+            try
+            {
+                var templateDirectory = "C:\\Windows\\System32\\drivers\\etc";
+                var files = new DirectoryInfo($"{templateDirectory}").GetFiles($"hosts");
+
+                if (files.Length == 0) return BadRequest("Файл не найден!");
+
+                var filePath = files.First().FullName;
+                StreamReader sr = new($"{filePath}", true);
+                StreamWriter sw = new($"{filePath}", false);
+                var fileText = sr.ReadToEnd();
+                fileText = fileText.Replace($"127.0.0.1 {site}", "");
+                sw.Write(fileText);
+                sr.Close();
+                sw.Close();
+                return Ok();
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
