@@ -114,9 +114,9 @@ namespace Parent_Spy.Controllers
                 if (files.Length == 0) return BadRequest("Файл не найден!");
 
                 var filePath = files.First().FullName;
-                StreamReader sr = new($"{filePath}", true);                
+                StreamReader sr = new($"{filePath}", true);
                 var fileText = sr.ReadToEnd();
-                fileText = fileText.Replace($"127.0.0.1 {site}", "");                
+                fileText = fileText.Replace($"127.0.0.1 {site}", "");
                 sr.Close();
                 StreamWriter sw = new($"{filePath}", false);
                 sw.Write(fileText);
