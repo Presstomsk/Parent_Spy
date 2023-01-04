@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Parent_Spy.DataBase;
@@ -11,7 +12,7 @@ using System.Text.Json;
 namespace Parent_Spy.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]"), Authorize]
     public class ParentSpyController : ControllerBase
     {       
 
