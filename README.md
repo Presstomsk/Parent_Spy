@@ -4,6 +4,8 @@
 
 ***Строка подключения сервиса в PowerShell New-Service -Name ParentSpy -BinaryPathName "C:\Parent_Spy\Parent_Spy.exe"***
 
+Через appsettings.json задается строка подключения к SQLite БД браузера Mozilla Firefox на локальном компьютере и адрес расположения файла hosts. 
+
 ***WEB API:***
 
 http://localhost:5100/ParentSpy/echo - проверка работоспособности сервиса - POST
