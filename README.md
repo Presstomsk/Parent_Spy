@@ -27,5 +27,11 @@ http://localhost:5100/ParentSpy/getFile?filePath=filePath - Загрузка ф�
 
 Блокировка/разблокировка сайта осуществляется путем внесения/удаления адреса сайта в файле hosts.
 
+![1](https://github.com/Presstomsk/Parent_Spy/blob/master/jpg/vc.jpg)
+
+![2](https://github.com/Presstomsk/Parent_Spy/blob/master/jpg/hosts.jpg)
+
+![3](https://github.com/Presstomsk/Parent_Spy/blob/master/jpg/BlockedVK.jpg)
+
 
 
