@@ -1,4 +1,4 @@
-# Parent_Spy
+# ParentSpy
 
 ***Часть приложения родительского контроля*** - Windows Service родительского контроля на ASP.NET Core 
 
