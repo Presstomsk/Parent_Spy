@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Parent_Spy.DataBase;
 using Parent_Spy.DTO;
@@ -17,12 +18,12 @@ namespace Parent_Spy.Controllers
     {       
 
         private readonly ILogger<ParentSpyController> _logger;
+        private readonly IConfiguration _config;
 
-        public ParentSpyController(ILogger<ParentSpyController> logger)
+        public ParentSpyController(ILogger<ParentSpyController> logger, IConfiguration config)
         {
             _logger = logger;
-
-            
+            _config = config;            
         }
 
         [HttpPost, Route("sites")]       
@@ -85,7 +86,7 @@ namespace Parent_Spy.Controllers
         {
             try
             {
-                var templateDirectory = "C:\\Windows\\System32\\drivers\\etc";
+                var templateDirectory = _config.GetSection("FilePath").Get<string>();
                 var files = new DirectoryInfo($"{templateDirectory}").GetFiles($"hosts");
 
                 if (files.Length == 0) return BadRequest("Файл не найден!");
@@ -109,7 +110,7 @@ namespace Parent_Spy.Controllers
         {
             try
             {
-                var templateDirectory = "C:\\Windows\\System32\\drivers\\etc";
+                var templateDirectory = _config.GetSection("FilePath").Get<string>();
                 var files = new DirectoryInfo($"{templateDirectory}").GetFiles($"hosts");
 
                 if (files.Length == 0) return BadRequest("Файл не найден!");
